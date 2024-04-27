@@ -19,13 +19,22 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	UStaticMeshComponent* ProjectileMesh;
+
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+	class UProjectileMovementComponent* ProjectileMovementComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	float ProjectileInitialSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	float ProjectileMaxSpeed;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 };
