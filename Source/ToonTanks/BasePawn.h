@@ -16,7 +16,9 @@ public:
 	ABasePawn();
 
 protected:
-	virtual void BeginPlay() override;
+
+	void RotateTurret(FVector LookAtTarget);
+	void Fire();
 
 private:
 
@@ -31,8 +33,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	class USceneComponent* ProjectileSpawnPoint;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };
