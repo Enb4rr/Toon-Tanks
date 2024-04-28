@@ -33,6 +33,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	float ProjectileMaxSpeed;
 
+	UPROPERTY(EditAnywhere)
+	float Damage = 50.f;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

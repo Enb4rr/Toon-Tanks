@@ -15,6 +15,8 @@ public:
 	
 	ABasePawn();
 
+	void HandleDestruction();
+
 protected:
 
 	void RotateTurret(FVector LookAtTarget);
