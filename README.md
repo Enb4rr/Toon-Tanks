@@ -13,7 +13,7 @@ Unreal Engine 5, 3D, Combat.
 The main objective of this project was to apply advance knowledge and all available tools in Unreal Engine 5 in order to develop a basic videogame featuring also IA control.
 
 ### Movement:
-![](https://github.com/Enb4rr/Dark-Souls-Combat-System/blob/main/Gifs/WeaponsAndEquipment.gif)
+![](https://github.com/Enb4rr/Toon-Tanks/blob/main/Gifs/Movement.gif)
 
 ### Shoot mechanic:
-![](https://github.com/Enb4rr/Dark-Souls-Combat-System/blob/main/Gifs/WeaponsAndEquipment.gif)
+![](https://github.com/Enb4rr/Toon-Tanks/blob/main/Gifs/Shoot.gif)
