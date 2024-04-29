@@ -6,6 +6,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "GameFramework/DamageType.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -19,6 +20,9 @@ AProjectile::AProjectile()
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement Component"));
 	ProjectileMovementComponent -> MaxSpeed = ProjectileMaxSpeed;
 	ProjectileMovementComponent -> InitialSpeed = ProjectileInitialSpeed;
+
+	TrailParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Trail Particle System Component"));
+	TrailParticleSystemComponent -> SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +30,7 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if(HitSound) UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation());
 	ProjectileMesh -> OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
@@ -39,7 +44,11 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	auto MyOwner = GetOwner();
-	if(MyOwner == nullptr) return;
+	if(MyOwner == nullptr)
+	{
+		Destroy();
+		return;
+	}
 
 	auto MyOwnerInstigator = MyOwner -> GetInstigatorController();
 	auto DamageTypeclass = UDamageType::StaticClass();
@@ -47,7 +56,11 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	if(OtherActor && OtherActor != this && OtherActor != MyOwner)
 	{
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeclass);
-		Destroy();
+		if(HitParticles) UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+		if(HitSound) UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
+		if(HitCameraShakeClass) GetWorld() -> GetFirstPlayerController() -> ClientStartCameraShake(HitCameraShakeClass);
 	}
+
+	Destroy();
 }
 
